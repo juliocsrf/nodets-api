@@ -52,7 +52,7 @@ export const updatePhrase = async (req: Request, res: Response) => {
     let id: number = parseInt(req.params.id as string);
     let { author, txt } = req.body;
 
-    if (id && !isNaN(parseInt(req.params.id))) {
+    if (id && !isNaN(id)) {
         phrase = await Phrase.findByPk(id);
     }
 
@@ -65,5 +65,21 @@ export const updatePhrase = async (req: Request, res: Response) => {
         res.status(404);
         res.json({ error: 'Frase não encontrada' })
     }
+}
 
+export const deletePhrase = async (req: Request, res: Response) => {
+    let phrase: PhraseInstance | null = null;
+    let id: number = parseInt(req.params.id as string);
+
+    if (id && !isNaN(id)) {
+        phrase = await Phrase.findByPk(id);
+    }
+
+    if (phrase) {
+        phrase.destroy();
+        res.json({ deleted: true });
+    } else {
+        res.status(404);
+        res.json({ error: 'Frase não encontrada' });
+    }
 }

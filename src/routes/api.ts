@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { json } from 'sequelize';
 
 import * as ApiController from '../controllers/api.controller';
 
@@ -13,5 +12,6 @@ router.post('/frases', ApiController.createPhrase);
 router.get('/frases', ApiController.getAllPhrases);
 router.get('/frase/:id', ApiController.getPhrase);
 router.put('/frase/:id', ApiController.updatePhrase);
+router.delete('/frase/:id', ApiController.deletePhrase);
 
 export default router;
