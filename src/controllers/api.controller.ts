@@ -34,8 +34,8 @@ export const getAllPhrases = async (req: Request, res: Response) => {
 
 export const getPhrase = async (req: Request, res: Response) => {
     let phrase: PhraseInstance | null = null;
-    
-    if(req.params.id && !isNaN(parseInt(req.params.id as string))) {
+
+    if (req.params.id && !isNaN(parseInt(req.params.id as string))) {
         phrase = await Phrase.findByPk(req.params.id);
     }
 
@@ -43,6 +43,27 @@ export const getPhrase = async (req: Request, res: Response) => {
         res.json({ phrase });
     } else {
         res.status(404);
-        res.json({ error: 'Frase Não encontrada' })
+        res.json({ error: 'Frase não encontrada' })
     }
+}
+
+export const updatePhrase = async (req: Request, res: Response) => {
+    let phrase: PhraseInstance | null = null;
+    let id: number = parseInt(req.params.id as string);
+    let { author, txt } = req.body;
+
+    if (id && !isNaN(parseInt(req.params.id))) {
+        phrase = await Phrase.findByPk(id);
+    }
+
+    if (phrase) {
+        phrase.author = author;
+        phrase.txt = txt;
+        await phrase.save();
+        res.json({ phrase });
+    } else {
+        res.status(404);
+        res.json({ error: 'Frase não encontrada' })
+    }
+
 }
